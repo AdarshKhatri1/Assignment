@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -21,9 +24,12 @@ import lombok.ToString;
 public class Sprint {
 	
 	@Id
-	private Integer ID;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer sprintID;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	private String sprintName;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sprint")
 	private List<Task>  TaskList = new ArrayList<>();
 	
 	

@@ -1,6 +1,6 @@
 package com.paypal.service;
 
-import java.lang.StackWalker.Option;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,63 +8,73 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.paypal.Exception.SprintException;
-import com.paypal.Exception.UserException;
+import com.paypal.dto.SprintDto;
 import com.paypal.model.Sprint;
-import com.paypal.model.User;
 import com.paypal.repo.SprintDao;
-import com.paypal.repo.UserDao;
-
 
 @Service
 public class SprintServiceImpl implements SprintService{
 	
 	@Autowired
 	private SprintDao sprintDao;
-	
-	@Autowired
-	private UserDao userDao;
-	
-	@Autowired
-	UserService userService;
 
 	@Override
-	public List<com.paypal.model.Task> Task(Integer id) throws SprintException {
+	public Sprint addSprint(Sprint sprint) throws SprintException {
+
+		Sprint sprint1 = sprintDao.save(sprint);
 		
-	 Optional<Sprint> sprint = 	sprintDao.findById(id);
-	 
-	 if(sprint.isEmpty()) {
-		 throw new SprintException("Invalid id");
-	 }
-		List<com.paypal.model.Task>  list = sprint.get().getTaskList();
-		return list;
+		return sprint1;
 	}
 
 	@Override
-	public Sprint addSpring(Sprint sprint) throws SprintException {
-		// TODO Auto-generated method stub
+	public Sprint updateSprint(Sprint sprint) throws SprintException {
+
+		Sprint sprint2 = sprintDao.save(sprint);
 		
-		return sprintDao.save(sprint);
+		return sprint2;
 	}
 
 	@Override
-	public Sprint addTask(Integer SprintID,Integer userID, com.paypal.model.Task task) throws SprintException, UserException {
-		// TODO Auto-generated method stub
-		Optional<Sprint> sprint =  sprintDao.findById(SprintID);
+	public Boolean deleteSprint(Integer sprintID) throws SprintException {
+
+		Optional<Sprint> sprint = sprintDao.findById(sprintID);
+		
 		if(sprint.isEmpty()) {
-			throw new SprintException("sprint not found with id " + SprintID);
+			throw new SprintException("No sprint with this ID");
 		}
-		sprint.get().getTaskList().add(task);
+		sprintDao.delete(sprint.get());
+		return true;
 		
-		Optional<User> user =  userDao.findById(userID);
-		 if(user.isEmpty()) {
-			 throw new UserException("user not found with id " + userID);
-		 }
-		
-	 User user1= 	userService.addTask(userID, task);
-	 
-		
-		return sprintDao.save(sprint.get());
 	}
+
+	@Override
+	public List<SprintDto> getallSprint() {
+		// TODO Auto-generated method stub
+		List<Sprint> Sprintlist = sprintDao.findAll();
+		System.out.println(Sprintlist.size());
+		
+		SprintDto sprintDto = new SprintDto();
+		
+		List<SprintDto> SprintDtoList= sprintDto.createSprintDto(Sprintlist);
+
+		return SprintDtoList;
+	}
+
+	@Override
+	public List<String> getallSprint2() {
+		// TODO Auto-generated method stub
+		List<String> list = new ArrayList<>();
+		list.add("adarsssh");
+		list.add("adarsdfgdfgssh");
+		list.add("adardfgdfgsssh");
+		list.add("adardfgdfgsssh");
+		list.add("adardfgdfgsssh");
+		list.add("adardfgdfgsssh");
+		return list;
+		
+	}
+	
+	
 
 	
 

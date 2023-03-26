@@ -24,11 +24,11 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
-	private String name;
-	private String Address;
-	private String mobileNo;
+	private Integer userID;
+	private String userName;
+	private String userAddress;
+	private String userMobileNo;
 	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
-	private List<Task> list = new ArrayList<>();
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "userAssignedToTask")
+	private List<Task> UserTaskList = new ArrayList<>();
 }
