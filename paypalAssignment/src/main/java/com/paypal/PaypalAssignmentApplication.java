@@ -26,7 +26,7 @@ public class PaypalAssignmentApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				// TODO Auto-generated method stub
-				registry.addMapping("/**").allowedOrigins("http://127.0.0.1:5555");
+				registry.addMapping("/**").allowedOrigins("*");
 			}
 		};
 	}
